@@ -73,6 +73,11 @@ article.unavailable-card-section {
   background-position: top 100px left 85px;
 }
 
+#clothesImage {
+  width: 305px;
+  height: 407px;
+}
+
 article.clothes-description {
   height: 100%;
   width: 100%;
@@ -115,6 +120,22 @@ section.clothes-rating {
   display: flex;
   align-items: center;
   gap: 0.25rem;
+}
+
+section.clothes-rating .rating-indicator {
+  display: flex;
+  gap: 0.2rem;
+}
+
+section.clothes-rating .rating-indicator .circle {
+  width: 18px;
+  height: 18px;
+  border: 1px solid var(--women-primary-color);
+  border-radius: 50%;
+}
+
+section.clothes-rating .rating-indicator .circle.active {
+  background-color: var(--women-primary-color);
 }
 
 article.clothes-description .border-bottom {

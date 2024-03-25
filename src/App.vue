@@ -1,33 +1,43 @@
 <template>
   <body>
-    <section :class="checkProductSection()" id="background-section">
-      <CardProduct> </CardProduct>
-    </section>
+    <MenSection :showNextSection="showNextSection" v-if="currentSection === 'men-section'" />
+    <WomenSection
+      :showNextSection="showNextSection"
+      v-else-if="currentSection === 'women-section'"
+      :circleClasses="circleClasses(womenClothes?.value?.rating)"
+    />
+    <UnavailableSection :showNextSection="showNextSection" v-else />
   </body>
-
   <!-- <RouterView /> -->
 </template>
 
 <script setup>
 // import { RouterLink, RouterView } from 'vue-router'
-import CardProduct from './components/CardProduct.vue'
+import UnavailableSection from '@/components/UnavailableSection.vue'
+import MenSection from '@/components/MenSection.vue'
+import WomenSection from '@/components/WomenSection.vue'
 
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
 
-const productSection = ref(['women-section'])
+const pageSection = ref(['men-section', 'women-section', 'unavailable-section'])
+const currentIndex = ref(0)
 
-const checkProductSection = () => {
-  const newValue = productSection.value
+const currentSection = computed(() => {
+  return pageSection.value[currentIndex.value]
+})
 
-  if (newValue.length > 0) {
-    if (newValue === 'men-section') {
-      productSection.value = 'men-section'
-    } else if (newValue === 'women-section') {
-      productSection.value = 'women-section'
-    }
-    return productSection.value
-  } else {
-    return (productSection.value = 'unavailable-section')
+const showNextSection = () => {
+  currentIndex.value = (currentIndex.value + 1) % pageSection.value.length
+}
+
+const circleClasses = (rating) => {
+  const classes = []
+  const roundedRating = Math.round(rating)
+  console.log(roundedRating)
+  console.log(roundedRating)
+  for (let i = 0; i < 5; i++) {
+    classes.push({ circle: true, active: i < roundedRating })
   }
+  return classes
 }
 </script>
