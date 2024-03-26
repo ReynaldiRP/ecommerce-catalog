@@ -49,6 +49,9 @@ onMounted(async () => {
 const fetchDataAndUpdate = async () => {
   const data = await fetchData()
   if (data) {
+    if (currentIdProduct.value >= 20) {
+      currentIdProduct.value = 1
+    }
     dataProduct.value = {
       title: data.title,
       category: data.category,

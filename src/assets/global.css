@@ -164,7 +164,7 @@ section.clothes-rating .rating-indicator .circle {
   border: 1px solid var(--unvailabe-product-primary-color);
 }
 
-section.clothes-rating .rating-indicator .circle-woman.active {
+section.clothes-rating .rating-indicator .circle-women.active {
   background-color: var(--women-primary-color);
 }
 
