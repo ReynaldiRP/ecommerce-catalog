@@ -1,3 +1,8 @@
+<script setup>
+import CardProduct from '@/components/CardProduct.vue'
+import AnimatedPlaceholder from '@/components/AnimatedPlaceholder.vue'
+</script>
+
 <template>
   <section id="background-section">
     <CardProduct class="card-section" style="height: 580px">
@@ -68,8 +73,3 @@
     </CardProduct>
   </section>
 </template>
-
-<script setup>
-import CardProduct from '@/components/CardProduct.vue'
-import AnimatedPlaceholder from '@/components/AnimatedPlaceholder.vue'
-</script>
