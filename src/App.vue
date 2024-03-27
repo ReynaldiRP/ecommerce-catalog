@@ -1,57 +1,57 @@
 <template>
   <body>
-    <ProductSection
-      :showNextSection="showNextSection"
-      :dataProduct="dataProduct"
-      :circleClasses="circleClasses"
-      :formattedRating="formattedRating"
-      :currentSection="checkCurrentSection"
-    />
-    <!-- <UnavailableSection :showNextSection="showNextSection" v-else /> -->
+    <Suspense>
+      <template #default>
+        <template v-if="currentIdProduct === 0">
+          <UnavailableSection :showNextSection="showNextSection" />
+        </template>
+        <template v-else>
+          <ProductSection
+            :showNextSection="showNextSection"
+            :dataProduct="dataProduct"
+            :circleClasses="circleClasses"
+            :formattedRating="formattedRating"
+            :currentSection="checkCurrentSection"
+          />
+        </template>
+      </template>
+      <template #fallback>
+        <ProductSectionSkeleton />
+      </template>
+    </Suspense>
   </body>
   <!-- <RouterView /> -->
 </template>
 
 <script setup>
 // import { RouterLink, RouterView } from 'vue-router'
-// import UnavailableSection from '@/components/UnavailableSection.vue'
+import UnavailableSection from '@/components/UnavailableSection.vue'
 import ProductSection from '@/components/ProductSection.vue'
+import ProductSectionSkeleton from '@/components/ProductSectionSkeleton.vue'
 
 import { ref, computed, onMounted } from 'vue'
-const dataProduct = ref({
-  title: '',
-  category: '',
-  rating: 0,
-  image: '',
-  description: '',
-  price: 0
-})
 
+const dataProduct = ref({})
 const currentIdProduct = ref(1)
 let className = ref({})
 
 const fetchData = async () => {
   try {
-    const url = `https://fakestoreapi.com/products/${currentIdProduct.value++}`
+    const url = `https://fakestoreapi.com/products/${currentIdProduct.value}`
     let response = await fetch(url)
     let data = await response.json()
     return data
   } catch (error) {
-    console.error('Error fetching data:', error)
+    console.error('There is no Data:', error)
     return null
   }
 }
 
-onMounted(async () => {
-  await fetchDataAndUpdate()
-})
-
 const fetchDataAndUpdate = async () => {
   const data = await fetchData()
+  console.log('Fetched data:', data)
+  console.log('currentIdProduct:', currentIdProduct.value)
   if (data) {
-    if (currentIdProduct.value >= 20) {
-      currentIdProduct.value = 1
-    }
     dataProduct.value = {
       title: data.title,
       category: data.category,
@@ -62,6 +62,21 @@ const fetchDataAndUpdate = async () => {
     }
   }
 }
+
+const showNextSection = async () => {
+  if (currentIdProduct.value >= 20) {
+    currentIdProduct.value = 0
+  } else {
+    currentIdProduct.value += 1
+  }
+
+  console.log(currentIdProduct.value)
+  await fetchDataAndUpdate()
+}
+
+onMounted(async () => {
+  await fetchDataAndUpdate()
+})
 
 const circleClasses = computed(() => {
   const classes = []
@@ -105,9 +120,5 @@ const checkCurrentSection = () => {
     buttonBuy: 'unavailable-button-buy',
     buttonNext: 'unavailable-button-next'
   })
-}
-
-const showNextSection = async () => {
-  await fetchDataAndUpdate()
 }
 </script>

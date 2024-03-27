@@ -1,7 +1,7 @@
 <template>
   <section :class="currentSection().section" id="background-section">
     <CardProduct class="card-section">
-      <img :src="dataProduct.image" class="skeleton-img" id="clothesImage" />
+      <img :src="dataProduct.image" id="clothesImage" />
       <article class="clothes-description">
         <h1 :class="currentSection().title" id="clothes-title">
           {{ dataProduct.title }}
