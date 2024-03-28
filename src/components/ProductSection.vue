@@ -5,7 +5,7 @@ const ProductSectionSkeleton = defineAsyncComponent(
   () => import('@/components/ProductSectionSkeleton.vue')
 )
 
-import { ref, computed, onMounted, defineAsyncComponent } from 'vue'
+import { ref, computed, defineAsyncComponent } from 'vue'
 
 const dataProduct = ref({
   title: '',
@@ -23,18 +23,14 @@ let className = ref({})
 const fetchData = async () => {
   try {
     const url = `https://fakestoreapi.com/products/${currentIdProduct.value}`
-    let response = await fetch(url)
-    let data = await response.json()
+    const response = await fetch(url)
+    const data = await response.json()
     return data
   } catch (error) {
     console.error('There is no Data:', error)
     return null
   }
 }
-
-onMounted(async () => {
-  await fetchDataAndUpdate()
-})
 
 const fetchDataAndUpdate = async () => {
   const data = await fetchData()
@@ -50,6 +46,45 @@ const fetchDataAndUpdate = async () => {
   }
 }
 
+await fetchDataAndUpdate((resolve) => {
+  setTimeout(() => {
+    resolve()
+  }, 3000)
+})
+
+const checkCurrentSection = () => {
+  const category = dataProduct.value.category
+  switch (category) {
+    case `men's clothing`:
+      return (className.value = {
+        section: 'men-section',
+        title: 'men-clothes-title',
+        rating: 'circle-men',
+        price: 'men-clothes-price',
+        buttonBuy: 'men-button-buy',
+        buttonNext: 'men-button-next'
+      })
+    case `women's clothing`:
+      return (className.value = {
+        section: 'women-section',
+        title: 'women-clothes-title',
+        rating: 'circle-women',
+        price: 'women-clothes-price',
+        buttonBuy: 'women-button-buy',
+        buttonNext: 'women-button-next'
+      })
+    default:
+      return (className.value = {
+        section: 'unavailable-section',
+        title: 'unavailable-primary-text',
+        rating: 'circle-unavailable',
+        price: 'unvailable-clothes-price',
+        buttonBuy: 'unavailable-button-buy',
+        buttonNext: 'unavailable-button-next'
+      })
+  }
+}
+
 const showNextSection = async () => {
   isLoading.value = true
   if (currentIdProduct.value >= 20) {
@@ -57,15 +92,14 @@ const showNextSection = async () => {
   } else {
     currentIdProduct.value += 1
   }
-  await fetchDataAndUpdate()
+
+  await fetchDataAndUpdate((resolve) => {
+    setTimeout(() => {
+      resolve()
+    }, 3000)
+  })
   isLoading.value = false
 }
-
-await fetchDataAndUpdate((resolve) => {
-  setTimeout(() => {
-    resolve()
-  }, 3000)
-})
 
 const circleClasses = computed(() => {
   const classes = []
@@ -79,37 +113,6 @@ const circleClasses = computed(() => {
 const formattedRating = computed(() => {
   return `${dataProduct.value.rating}/5`
 })
-
-const checkCurrentSection = () => {
-  const category = dataProduct.value.category
-  if (category === `men's clothing`) {
-    return (className.value = {
-      section: 'men-section',
-      title: 'men-clothes-title',
-      rating: 'circle-men',
-      price: 'men-clothes-price',
-      buttonBuy: 'men-button-buy',
-      buttonNext: 'men-button-next'
-    })
-  } else if (category === `women's clothing`) {
-    return (className.value = {
-      section: 'women-section',
-      title: 'women-clothes-title',
-      rating: 'circle-women',
-      price: 'women-clothes-price',
-      buttonBuy: 'women-button-buy',
-      buttonNext: 'women-button-next'
-    })
-  }
-  return (className.value = {
-    section: 'unavailable-section',
-    title: 'unavailable-primary-text',
-    rating: 'circle-unavailable',
-    price: 'unvailable-clothes-price',
-    buttonBuy: 'unavailable-button-buy',
-    buttonNext: 'unavailable-button-next'
-  })
-}
 </script>
 
 <template>

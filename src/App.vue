@@ -1,16 +1,14 @@
 <script setup>
 // import { RouterLink, RouterView } from 'vue-router'
-import { defineAsyncComponent } from 'vue'
 
-const ProductSection = defineAsyncComponent(() => import('@/components/ProductSection.vue'))
-const ProductSectionSkeleton = defineAsyncComponent(
-  () => import('@/components/ProductSectionSkeleton.vue')
-)
+import ProductSection from '@/components/ProductSection.vue'
+import ProductSectionSkeleton from '@/components/ProductSectionSkeleton.vue'
 </script>
 
 <template>
   <body>
-    <Suspense :timeout="0">
+    <!-- Add Suspense for give loading to the async component -->
+    <Suspense>
       <template #default>
         <ProductSection />
       </template>
@@ -19,5 +17,6 @@ const ProductSectionSkeleton = defineAsyncComponent(
       </template>
     </Suspense>
   </body>
+
   <!-- <RouterView /> -->
 </template>
