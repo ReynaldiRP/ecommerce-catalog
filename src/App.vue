@@ -1,13 +1,11 @@
 <script setup>
-// import { RouterLink, RouterView } from 'vue-router'
-
 import ProductSection from '@/components/ProductSection.vue'
 import ProductSectionSkeleton from '@/components/ProductSectionSkeleton.vue'
 </script>
 
 <template>
   <body>
-    <!-- Add Suspense for give loading to the async component -->
+    <!-- Add Suspense for give loading to fetching data from async component -->
     <Suspense>
       <template #default>
         <ProductSection />
@@ -17,6 +15,4 @@ import ProductSectionSkeleton from '@/components/ProductSectionSkeleton.vue'
       </template>
     </Suspense>
   </body>
-
-  <!-- <RouterView /> -->
 </template>

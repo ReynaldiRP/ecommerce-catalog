@@ -3,7 +3,7 @@ import { defineStore } from 'pinia'
 
 export const useProductSection = defineStore('product', () => {
   const dataProduct = ref({})
-  const currentIdProduct = ref(20)
+  const currentIdProduct = ref(1)
   const isLoading = ref(false)
   let className = ref({})
 
@@ -35,19 +35,23 @@ export const useProductSection = defineStore('product', () => {
 
   const showNextSection = async () => {
     isLoading.value = true
-    console.log(currentIdProduct.value)
-    if (currentIdProduct.value >= 20) {
-      currentIdProduct.value = 0
-    } else {
-      currentIdProduct.value += 1
-    }
+    try {
+      if (currentIdProduct.value >= 20) {
+        currentIdProduct.value = 0
+      } else {
+        currentIdProduct.value += 1
+      }
 
-    await fetchDataAndUpdate((resolve) => {
-      setTimeout(() => {
-        resolve()
-      }, 3000)
-    })
-    isLoading.value = false
+      await fetchDataAndUpdate((resolve) => {
+        setTimeout(() => {
+          resolve()
+        }, 3000)
+      })
+    } catch (error) {
+      console.error('error fectching data : ' + error)
+    } finally {
+      isLoading.value = false
+    }
   }
 
   const circleClasses = computed(() => {

@@ -1,5 +1,6 @@
 <script setup>
 import { useProductSection } from '@/stores/products'
+import { RouterLink, RouterView } from 'vue-router'
 
 import CardProduct from '@/components/CardProduct.vue'
 const UnavailableSection = defineAsyncComponent(() => import('@/components/UnavailableSection.vue'))
@@ -23,10 +24,7 @@ await products.fetchDataAndUpdate((resolve) => {
 </script>
 
 <template>
-  <UnavailableSection
-    v-if="products.currentIdProduct === 0"
-    :showNextSection="products.showNextSection"
-  />
+  <UnavailableSection v-if="products.currentIdProduct === 0" />
   <section v-else :class="products.checkCurrentSection().section" id="background-section">
     <CardProduct class="card-section">
       <img :src="products.dataProduct.image" id="clothesImage" />
