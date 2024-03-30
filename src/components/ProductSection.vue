@@ -1,6 +1,5 @@
 <script setup>
 import { useProductSection } from '@/stores/products'
-import { RouterLink, RouterView } from 'vue-router'
 
 import CardProduct from '@/components/CardProduct.vue'
 const UnavailableSection = defineAsyncComponent(() => import('@/components/UnavailableSection.vue'))

@@ -5,7 +5,7 @@ import AnimatedPlaceholder from '@/components/AnimatedPlaceholder.vue'
 
 <template>
   <section id="background-section">
-    <CardProduct class="card-section" style="height: 580px">
+    <CardProduct class="card-section" style="height: 100%">
       <AnimatedPlaceholder borderRadius="1rem" id="clothesImage" />
       <article class="clothes-description">
         <h1 id="clothes-title">
