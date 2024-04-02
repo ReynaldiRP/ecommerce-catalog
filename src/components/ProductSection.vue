@@ -1,6 +1,5 @@
 <script setup>
 import { useProductSection } from '@/stores/products'
-
 import CardProduct from '@/components/CardProduct.vue'
 const UnavailableSection = defineAsyncComponent(() => import('@/components/UnavailableSection.vue'))
 const ProductSectionSkeleton = defineAsyncComponent(
@@ -12,8 +11,6 @@ import { defineAsyncComponent } from 'vue'
 const products = new useProductSection()
 
 products.currentIdProduct
-products.fetchData()
-products.fetchDataAndUpdate()
 products.showNextSection
 await products.fetchDataAndUpdate((resolve) => {
   setTimeout(() => {
